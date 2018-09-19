@@ -55,10 +55,8 @@ class YAMLCppConan(ConanFile):
       if self.settings.os == "Windows" and not self.options.shared:
         cmake.definitions["BUILD_SHARED_LIBS"] = False
       
-      if self.settings.os == "Windows" and not self.options.shared:
-        cmake.definitions["MSVC_SHARED_RT"] = False
-      elif self.settings.os == "Windows" and self.options.shared:
-        cmake.definitions["MSVC_SHARED_RT"] = True
+      if self.settings.os == "Windows":
+        cmake.definitions["MSVC_SHARED_RT"] = self.settings.compiler.runtime == "MD" or self.settings.compiler.runtime == "MDd"
       
       cmake.configure(source_dir=self.source_folder + '/yaml-cpp')
       cmake.build()
