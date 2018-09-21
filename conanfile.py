@@ -46,6 +46,8 @@ class YAMLCppConan(ConanFile):
     def build(self):
       cmake = CMake(self, parallel=True)
       
+      tools.replace_in_file("yaml-cpp/CMakeLists.txt", "project(YAML_CPP)", "project(YAML_CPP)\ninclude(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)\nconan_basic_setup()")
+      
       cmake.definitions["YAML_CPP_BUILD_CONTRIB"] = True
       cmake.definitions["YAML_CPP_BUILD_TOOLS"] = False
       cmake.definitions["YAML_CPP_BUILD_TESTS"] = False
